@@ -38,13 +38,15 @@
         <option value="Londres"></option>
       </datalist>
   
-      <input list="names" id="name" name="name" type="text" placeholder="name" autocomplete="off"/>
-      <input list="ages" id="age" name="age" type="number" placeholder="idade" autocomplete="off" />
+      <input list="names" id="name" name="name" type="text" placeholder="name" autocomplete="off" />
+      <input list="ages" id="age" name="age" type="number" placeholder="idade" autocomplete="off" min="1"/>
       <input list="cities" id="city" name="city" type="text" placeholder="city" autocomplete="off" />
   
       <button id="post">Create new user</button>
     </div>
+
     <hr />
+
     <div>
       <h2>PUT</h2>
 
@@ -54,8 +56,16 @@
         <option value="city">city</option>
       </select>
       <input id="value" name="value" type="text" placeholder="new value" autocomplete="off" />
-      <input type="number" name="id" id="id_put" placeholder="ID" autocomplete="off" min="0" />
+      <input type="number" name="id" id="id_put" placeholder="ID" autocomplete="off" min="1" />
       <button id="put">Update user data</button>
+    </div>
+
+    <hr>
+
+    <div>
+      <h2>DELETE</h2>
+      <input id="id_delete" name="id_delete" type="number" placeholder="ID to delete" min="1"/>
+      <button id="delete">Delete user</button>
     </div>
 
     <hr />

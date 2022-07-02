@@ -1,6 +1,7 @@
 const p = document.querySelector("p");
 const post = document.querySelector("#post");
 const put = document.querySelector("#put");
+const del = document.querySelector("#delete");
 
 const url = "http://172.24.235.82:8001/users";
 
@@ -18,10 +19,14 @@ put.addEventListener("click", (e) => {
     target: document.querySelector("#data").value,
     newValue: document.querySelector("#value").value
   }
-  if (body.target == "age")
+  if (body.target == "age") {
     body.newValue = Number(body.newValue);
+  }
   updateUserInfo(body);
 });
+del.addEventListener("click", (e) => {
+  deleteUser(document.querySelector("#id_delete").value);
+})
 
 function createNewUser(user) {
   const options = {
@@ -42,6 +47,16 @@ function updateUserInfo(body) {
     headers: { "Content-type": "application/json;charset=UTF-8" }
   };
   fetch(url, options)
+    .then(result => result.text())
+    .then(data => p.innerText = data)
+    .catch(error => console.log(error));
+}
+
+function deleteUser(id) {
+  const options = {
+    method: "DELETE"
+  };
+  fetch(`${url}/${id}`, options)
     .then(result => result.text())
     .then(data => p.innerText = data)
     .catch(error => console.log(error));
