@@ -1,26 +1,48 @@
-const h2 = document.querySelector("h2");
+const p = document.querySelector("p");
+const post = document.querySelector("#post");
+const put = document.querySelector("#put");
 
-const url = "http://localhost:8001/users";
+const url = "http://172.24.235.82:8001/users";
 
-createNewUser();
-
-function createNewUser() {
+post.addEventListener("click", (e) => {
   const user = {
-    name: "Mons Drago",
-    age: 20,
-    city: "New York"
+    name: document.querySelector("#name").value,
+    age: document.querySelector("#age").value,
+    city: document.querySelector("#city").value
   };
+  createNewUser(user);
+});
+put.addEventListener("click", (e) => {
+  const body = {
+    id: document.querySelector("#id_put").value,
+    target: document.querySelector("#data").value,
+    newValue: document.querySelector("#value").value
+  }
+  if (body.target == "age")
+    body.newValue = Number(body.newValue);
+  updateUserInfo(body);
+});
+
+function createNewUser(user) {
   const options = {
     method: "POST",
     body: JSON.stringify(user),
-    headers: { "Content-type": "application/json; charset=UTF-8" }
+    headers: { "Content-type": "application/json;charset=UTF-8" }
   };
+  fetch(url, options)
+  .then(result => result.text())
+  .then(data => p.innerText = data)
+  .catch(error => console.log(error));
+}
 
-  //fetch(url, options)
-  //  .then( result => h2.innerText = "hehehe");
-  //  .catch( error => h2.innerText = error);
-
-    fetch("https://api.github.com/users/moisesggomes")
-    .then(result => result.json())
-    .then(data => document.querySelector("h2").innerText = data.login)
+function updateUserInfo(body) {
+  const options = {
+    method: "PUT",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json;charset=UTF-8" }
+  };
+  fetch(url, options)
+    .then(result => result.text())
+    .then(data => p.innerText = data)
+    .catch(error => console.log(error));
 }

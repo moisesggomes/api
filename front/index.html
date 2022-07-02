@@ -2,25 +2,66 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      button {
+        padding: 5px;
+      }
+
+      div {
+        margin-block: 40px;
+      }
+    </style>
     <title>Aprendendo sobre APIs</title>
   </head>
   <body>
     <h1>APIs</h1>
-    <a href="http://10.0.0.108:8001/users">Go to users API</a>
+    <a href="http://172.24.235.82:8001/users">Go to users API</a>
+
+    <div>
+      <h2>POST</h2>
+
+      <datalist id="names">
+        <option value="Mons Drago"></option>
+        <option value="Fabricio Ramos"></option>
+        <option value="Roberta Ribeiro"></option>
+      </datalist>
+  
+      <datalist id="ages">
+        <option value="20"></option>
+        <option value="28"></option>
+        <option value="19"></option>
+      </datalist>
+  
+      <datalist id="cities">
+        <option value="New York"></option>
+        <option value="Calcutá"></option>
+        <option value="Londres"></option>
+      </datalist>
+  
+      <input list="names" id="name" name="name" type="text" placeholder="name" autocomplete="off"/>
+      <input list="ages" id="age" name="age" type="number" placeholder="idade" autocomplete="off" />
+      <input list="cities" id="city" name="city" type="text" placeholder="city" autocomplete="off" />
+  
+      <button id="post">Create new user</button>
+    </div>
+    <hr />
+    <div>
+      <h2>PUT</h2>
+
+      <select id="data">
+        <option value="name">name</option>
+        <option value="age">age</option>
+        <option value="city">city</option>
+      </select>
+      <input id="value" name="value" type="text" placeholder="new value" autocomplete="off" />
+      <input type="number" name="id" id="id_put" placeholder="ID" autocomplete="off" min="0" />
+      <button id="put">Update user data</button>
+    </div>
+
+    <hr />
     <hr />
     <p></p>
 
-    <!--  <script src="main.js"></script>  -->
-    <script>
-      const p = document.querySelector("p");
-      const url = "http://10.0.0.108:8001/users";
-      
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          p.innerText = data;
-        })
-        .catch(error => p.innerText = error)
-    </script>
+    <script src="./main.js"></script>
   </body>
 </html>

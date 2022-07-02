@@ -1,6 +1,9 @@
 const http = require("http");
 const fs = require("fs");
 
+const host = process.argv[2];
+const port = 8000;
+
 const app = http.createServer((req, res) => {
   if (req.url === "/main.js") {
     res.writeHead(200, { "Content-type": "text/javascript" });
@@ -10,4 +13,4 @@ const app = http.createServer((req, res) => {
   res.writeHead(200, { "Content-type": "text/html" });
   res.end(fs.readFileSync("index.html"));
 });
-app.listen(8000, () => console.log("Server is running on 'http://localhost:8000'"));
+app.listen(port, host, () => console.log(`Server is running on 'http://${host}:${port}'`));
