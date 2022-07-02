@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-app.listen(8001, () => console.log("API is running on 'http://localhost:8001'"));
+app.listen(8001, "10.0.0.108", () => console.log("API is running on 'http://10.0.0.108:8001'"));
 
 let ID = 1;
 const author = {
@@ -25,5 +25,18 @@ app.route("/users/:id").get((req, res) => {
   });
   if (!responseSended) {
     res.send("User not found :(");
+  }
+});
+
+app.route("/users").post((req, res) => {
+  const newUser = req.body;
+  console.log(newUser);
+  newUser.id = ++ID;
+  users.push(newUser);
+  try {
+    res.send(`User ${newUser.name} created`);
+  } catch(error) {
+    console.log(error)
+    res.send("Sorry, I couldn't create a new User :(");
   }
 });

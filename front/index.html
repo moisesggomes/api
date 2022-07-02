@@ -6,10 +6,21 @@
   </head>
   <body>
     <h1>APIs</h1>
-    <a href="http://localhost:8001/users">Go to users API</a>
+    <a href="http://10.0.0.108:8001/users">Go to users API</a>
     <hr />
+    <p></p>
 
-
-    <script src="main.js"></script>
+    <!--  <script src="main.js"></script>  -->
+    <script>
+      const p = document.querySelector("p");
+      const url = "http://10.0.0.108:8001/users";
+      
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          p.innerText = data;
+        })
+        .catch(error => p.innerText = error)
+    </script>
   </body>
 </html>
