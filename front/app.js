@@ -1,16 +1,14 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
+const app = express();
+app.use(express.static("./public"));
 
-const host = process.argv[2];
+app.set("view engine", "ejs");
+
+const host = typeof process.argv[2] == "undefined" ? "localhost" : process.argv[2];
 const port = 8000;
 
-const app = http.createServer((req, res) => {
-  if (req.url === "/main.js") {
-    res.writeHead(200, { "Content-type": "text/javascript" });
-    res.end(fs.readFileSync("main.js"));
-    return;
-  }
-  res.writeHead(200, { "Content-type": "text/html" });
-  res.end(fs.readFileSync("index.html"));
+app.get("/", (req, res) => {
+  res.render("index.ejs", { host });
 });
+
 app.listen(port, host, () => console.log(`Server is running on 'http://${host}:${port}'`));

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      button {
+        padding: 5px;
+      }
+
+      div {
+        margin-block: 40px;
+      }
+    </style>
+    <title>Aprendendo sobre APIs</title>
+  </head>
+  <body>
+    <h1>APIs</h1>
+    <a href="http://<%= host %>:8001/users">Go to users API</a>
+
+    <div>
+      <h2>POST</h2>
+
+      <datalist id="names">
+        <option value="Mons Drago"></option>
+        <option value="Fabricio Ramos"></option>
+        <option value="Roberta Ribeiro"></option>
+      </datalist>
+  
+      <datalist id="ages">
+        <option value="20"></option>
+        <option value="28"></option>
+        <option value="19"></option>
+      </datalist>
+  
+      <datalist id="cities">
+        <option value="New York"></option>
+        <option value="Calcutá"></option>
+        <option value="Londres"></option>
+      </datalist>
+  
+      <input list="names" id="name" name="name" type="text" placeholder="name" autocomplete="off" />
+      <input list="ages" id="age" name="age" type="number" placeholder="idade" autocomplete="off" min="1"/>
+      <input list="cities" id="city" name="city" type="text" placeholder="city" autocomplete="off" />
+  
+      <button id="post">Create new user</button>
+    </div>
+
+    <hr />
+
+    <div>
+      <h2>PUT</h2>
+
+      <select id="data">
+        <option value="name">name</option>
+        <option value="age">age</option>
+        <option value="city">city</option>
+      </select>
+      <input id="value" name="value" type="text" placeholder="new value" autocomplete="off" />
+      <input type="number" name="id" id="id_put" placeholder="ID" autocomplete="off" min="1" />
+      <button id="put">Update user data</button>
+    </div>
+
+    <hr>
+
+    <div>
+      <h2>DELETE</h2>
+      <input id="id_delete" name="id_delete" type="number" placeholder="ID to delete" min="1"/>
+      <button id="delete">Delete user</button>
+    </div>
+
+    <hr />
+    <hr />
+    <p></p>
+
+    <script>
+      const url = "http://<%= host %>:8001/users";
+    </script>
+    <script src="./main.js"></script>
+  </body>
+</html>

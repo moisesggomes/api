@@ -1,13 +1,11 @@
 const express = require("express");
-// const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-// app.use(cors());
 app.use((req, res, next) => {
   console.log(req.body);
   res.set({
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "X-Requested-With,content-type, Authorization"
   });
@@ -15,7 +13,7 @@ app.use((req, res, next) => {
 });
 
 const port = 8001;
-const host = process.argv[2];
+const host = typeof process.argv[2] == "undefined" ? "localhost" : process.argv[2];
 app.listen(port, host, () => console.log(`API is running on 'http://${host}:${port}'`));
 
 let ID = 1;

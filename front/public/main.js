@@ -3,8 +3,6 @@ const post = document.querySelector("#post");
 const put = document.querySelector("#put");
 const del = document.querySelector("#delete");
 
-const url = "http://172.24.235.82:8001/users";
-
 post.addEventListener("click", (e) => {
   const user = {
     name: document.querySelector("#name").value,
