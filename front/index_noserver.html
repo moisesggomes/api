@@ -17,6 +17,9 @@
   </head>
   <body>
     <h1>APIs</h1>
+
+    <p id="responseMessage"></p>
+
     <div>
       <h2>POST</h2>
 
@@ -38,9 +41,9 @@
         <option value="Londres"></option>
       </datalist>
   
-      <input list="names" id="name" name="name" type="text" placeholder="name" autocomplete="off" />
-      <input list="ages" id="age" name="age" type="number" placeholder="idade" autocomplete="off" min="1"/>
-      <input list="cities" id="city" name="city" type="text" placeholder="city" autocomplete="off" />
+      <input list="names" id="name_post" name="name" type="text" placeholder="name" autocomplete="off" />
+      <input list="ages" id="age_post" name="age" type="number" placeholder="age" autocomplete="off" min="1"/>
+      <input list="cities" id="city_post" name="city" type="text" placeholder="city" autocomplete="off" />
   
       <button id="post">Create new user</button>
     </div>
@@ -50,14 +53,28 @@
     <div>
       <h2>PUT</h2>
 
+      <input id="name_put" name="name" type="text" placeholder="name" autocomplete="off" />
+      <input id="age_put" name="age" type="number" placeholder="age" autocomplete="off" min="1" />
+      <input id="city_put" name="city" type="text" placeholder="city" autocomplete="off" />
+      <input id="id_put" name="id" type="number" placeholder="ID" autocomplete="off" min="1" />
+
+      <button id="put">Update user</button>
+    </div>
+
+    <hr />
+
+    <div>
+      <h2>PATCH</h2>
+
       <select id="data">
         <option value="name">name</option>
         <option value="age">age</option>
         <option value="city">city</option>
       </select>
       <input id="value" name="value" type="text" placeholder="new value" autocomplete="off" />
-      <input type="number" name="id" id="id_put" placeholder="ID" autocomplete="off" min="1" />
-      <button id="put">Update user data</button>
+      <input id="id_patch" type="number" name="id" placeholder="ID" autocomplete="off" min="1" />
+
+      <button id="patch">Update user data</button>
     </div>
 
     <hr>
@@ -70,80 +87,95 @@
 
     <hr />
     <hr />
-    <p></p>
 
     <script> 
-const p = document.querySelector("p");
+      const responseMessage = document.querySelector("#responseMessage");
 
-const url = "http://localhost:8001/users";
-const post = document.querySelector("#post");
-const put = document.querySelector("#put");
-const del = document.querySelector("#delete");
+      const url = "http://172.28.42.85:8001/users";
+      const post = document.querySelector("#post");
+      const put = document.querySelector("#put");
+      const patch = document.querySelector("#patch");
+      const del = document.querySelector("#delete");
 
-post.addEventListener("click", (e) => {
-  const user = {
-    name: document.querySelector("#name").value,
-    age: document.querySelector("#age").value,
-    city: document.querySelector("#city").value
-  };
-  createNewUser(user);
-});
-put.addEventListener("click", (e) => {
-  const body = {
-    id: document.querySelector("#id_put").value,
-    target: document.querySelector("#data").value,
-    newValue: document.querySelector("#value").value
-  }
-  if (body.target == "age") {
-    body.newValue = Number(body.newValue);
-  }
-  updateUserInfo(body);
-});
-del.addEventListener("click", (e) => {
-  deleteUser(document.querySelector("#id_delete").value);
-})
+      post.addEventListener("click", (e) => {
+        const user = {
+          name: document.querySelector("#name_post").value,
+          age: document.querySelector("#age_post").value,
+          city: document.querySelector("#city_post").value
+        };
+        createNewUser(user);
+      });
+      put.addEventListener("click", (e) => {
+        const user = {
+          name: document.querySelector("#name_put").value,
+          age: document.querySelector("#age_put").value,
+          city: document.querySelector("#city_put").value
+        };
+        const id = document.querySelector("#id_put").value;
+        updateUser(user, id);
+      });
+      patch.addEventListener("click", (e) => {
+        const body = {
+          target: document.querySelector("#data").value,
+          newValue: document.querySelector("#value").value
+        }
+        const id = document.querySelector("#id_patch").value;
+        updateUserInfo(body, id);
+      });
+      del.addEventListener("click", (e) => {
+        deleteUser(document.querySelector("#id_delete").value);
+      })
 
-function createNewUser(user) {
-  const options = {
-    method: "POST",
-    body: JSON.stringify(user),
-    headers: { "Content-type": "application/json;charset=UTF-8" }
-  };
-  fetch(url, options)
-  .then(result => {
-    p.innerText = "result";
-    return result.text()
-  })
-  .then(data => {
-    p.innerText = data;
-  })
-  .catch(error => {
-    p.innerText = "error";
-    console.log(error)
-  });
-}
+      function createNewUser(user) {
+        const options = {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: { "Content-type": "application/json;charset=UTF-8" }
+        };
+        fetch(url, options)
+        .then(result => result.json())
+        .then(data => responseMessage.innerText = data)
+        .catch(error => console.log(error));
+        // .catch(error => responseMessage.innerText = error);
+      }
 
-function updateUserInfo(body) {
-  const options = {
-    method: "PUT",
-    body: JSON.stringify(body),
-    headers: { "Content-type": "application/json;charset=UTF-8" }
-  };
-  fetch(url, options)
-    .then(result => result.text())
-    .then(data => p.innerText = data)
-    .catch(error => console.log(error));
-}
+      function updateUser(user, id) {
+        const options = {
+          method: "PUT",
+          body: JSON.stringify(user),
+          headers: { "Content-type": "application/json;charset=UTF-8" }
+        };
+        fetch(`${url}/${id}`, options)
+          .then(result => result.json())
+          .then(data => responseMessage.innerText = data)
+          .catch(error => console.log(error));
+          // .catch(error => responseMessage.innerText = error);
+      }
 
-function deleteUser(id) {
-  const options = {
-    method: "DELETE"
-  };
-  fetch(`${url}/${id}`, options)
-  .then(result => result.text())
-  .then(data => p.innerText = data)
-  .catch(error => console.log(error));
-}
+      function updateUserInfo(body, id) {
+        const options = {
+          method: "PATCH",
+          body: JSON.stringify(body),
+          headers: { "Content-type": "application/json;charset=UTF-8" }
+        };
+        console.log(`${url}/${id}`);
+        fetch(`${url}/${id}`, options)
+          .then(result => result.json())
+          .then(data => responseMessage.innerText = data)
+          .catch(error => console.log(error));
+        // .catch(error => responseMessage.innerText = error);
+      }
+
+      function deleteUser(id) {
+        const options = {
+          method: "DELETE"
+        };
+        fetch(`${url}/${id}`, options)
+        .then(result => result.text())
+        .then(data => responseMessage.innerText = data)
+        .catch(error => console.log(error));
+        // .catch(error => responseMessage.innerText = error);
+      }
     </script>
   </body>
 </html>
